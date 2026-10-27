@@ -9,7 +9,7 @@ public interface CustomerService {
 
     Single<CustomerDto> create(CustomerDto dto);
     Flowable<CustomerDto> findAll();
-    Single<CustomerDto> findById(String id);
+    Single<CustomerDto> findByDocumentNumber(String id);
     Single<CustomerDto> update(String id, CustomerDto dto);
     Completable delete(String id);
 }

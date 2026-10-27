@@ -28,19 +28,19 @@ public class CustomerController {
         return customerService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Single<CustomerDto> findById(@PathVariable String id) {
-        return customerService.findById(id);
+    @GetMapping("/{documentNumber}")
+    public Single<CustomerDto> findByDocumentNumber(@PathVariable String documentNumber) {
+        return customerService.findByDocumentNumber(documentNumber);
     }
 
-    @PutMapping("/{id}")
-    public Single<CustomerDto> update(@PathVariable String id, @Valid @RequestBody CustomerDto dto) {
-        return customerService.update(id, dto);
+    @PutMapping("/{documentNumber}")
+    public Single<CustomerDto> update(@PathVariable String documentNumber, @Valid @RequestBody CustomerDto dto) {
+        return customerService.update(documentNumber, dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{documentNumber}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Completable delete(@PathVariable String id) {
-        return customerService.delete(id);
+    public Completable delete(@PathVariable String documentNumber) {
+        return customerService.delete(documentNumber);
     }
 }

@@ -4,10 +4,12 @@ import com.bank.customer.dto.CustomerDto;
 import com.bank.customer.exception.BusinessException;
 import com.bank.customer.exception.NotFoundException;
 import com.bank.customer.mapper.CustomerMapper;
+import com.bank.customer.model.Customer;
 import com.bank.customer.repository.CustomerRepository;
 import com.bank.customer.service.CustomerService;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,32 +43,32 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Single<CustomerDto> findById(String id) {
-        return Flowable.fromPublisher(repository.findById(id))
-                .firstOrError()
-                .onErrorResumeNext(e -> Single.error(new NotFoundException("Customer not found: " + id)))
-                .map(CustomerMapper::toDto);
+    public Single<CustomerDto> findByDocumentNumber(String documentNumber) {
+        return findEntity(documentNumber).map(CustomerMapper::toDto);
     }
 
     @Override
-    public Single<CustomerDto> update(String id, CustomerDto dto) {
-        log.info("Updating customer {}", id);
-        return Flowable.fromPublisher(repository.findById(id))
-                .firstOrError()
-                .onErrorResumeNext(e -> Single.error(new NotFoundException("Customer not found: " + id)))
+    public Single<CustomerDto> update(String documentNumber, CustomerDto dto) {
+        log.info("Updating customer with document {}", documentNumber);
+        return findEntity(documentNumber)
                 .flatMap(existing -> {
                     dto.setId(existing.getId());
+                    dto.setDocumentNumber(documentNumber); // the document number cannot be changed
                     return Single.fromPublisher(repository.save(CustomerMapper.toEntity(dto)));
                 })
                 .map(CustomerMapper::toDto);
     }
 
     @Override
-    public Completable delete(String id) {
-        log.info("Deleting customer {}", id);
-        return Flowable.fromPublisher(repository.findById(id))
-                .firstOrError()
-                .onErrorResumeNext(e -> Single.error(new NotFoundException("Customer not found: " + id)))
-                .flatMapCompletable(existing -> Completable.fromPublisher(repository.deleteById(id)));
+    public Completable delete(String documentNumber) {
+        log.info("Deleting customer with document {}", documentNumber);
+        return findEntity(documentNumber)
+                .flatMapCompletable(existing -> Completable.fromPublisher(repository.delete(existing)));
+    }
+
+    private Single<Customer> findEntity(String documentNumber) {
+        return Maybe.fromPublisher(repository.findByDocumentNumber(documentNumber))
+                .switchIfEmpty(Single.error(
+                        new NotFoundException("Customer not found with document: " + documentNumber)));
     }
 }
