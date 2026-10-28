@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+paths:
+  /customers/{documentNumber}:
+    get:
+      tags:
+      - customer-controller
+      operationId: findByDocumentNumber
+      parameters:
+      - name: documentNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SingleCustomerDto"
+    put:
+      tags:
+      - customer-controller
+      operationId: update
+      parameters:
+      - name: documentNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SingleCustomerDto"
+    delete:
+      tags:
+      - customer-controller
+      operationId: delete
+      parameters:
+      - name: documentNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Completable"
+  /customers:
+    get:
+      tags:
+      - customer-controller
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+    post:
+      tags:
+      - customer-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerDto"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SingleCustomerDto"
+components:
+  schemas:
+    CustomerDto:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - PERSONAL
+          - BUSINESS
+        profile:
+          type: string
+          enum:
+          - STANDARD
+          - VIP
+          - PYME
+        documentNumber:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+      required:
+      - documentNumber
+      - name
+      - type
+    SingleCustomerDto: {}
+    Completable: {}

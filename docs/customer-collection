@@ -1,0 +1,167 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Integrator project
+meta:
+  id: wrk_c19c338c74b84ffa97229a6b110467ce
+  created: 1793136263454
+  modified: 1793136263454
+  description: ""
+collection:
+  - name: customer-service
+    meta:
+      id: fld_f3a21770726544b48eac95bc895eca7e
+      created: 1793136326203
+      modified: 1793142922562
+      sortKey: -1793136326203
+      description: ""
+    children:
+      - url: http://localhost:8081/customers
+        name: find all customer
+        meta:
+          id: req_90e2d7fc7a2844c3a95f838bfb4521de
+          created: 1793136331360
+          modified: 1793142940013
+          isPrivate: false
+          description: ""
+          sortKey: -1793136331360
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/customers/12345679
+        name: find customer id
+        meta:
+          id: req_671cbfba063b4a08a4436d3d6206c9c3
+          created: 1793136534671
+          modified: 1793136552938
+          isPrivate: false
+          description: ""
+          sortKey: -1793130873030.5
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/customers
+        name: create customer
+        meta:
+          id: req_243c0746a1a842629bbd8fc4715035be
+          created: 1793136579902
+          modified: 1793151499382
+          isPrivate: false
+          description: ""
+          sortKey: -1793133602195.25
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "type": "PERSONAL",
+              "documentNumber": "12345678",
+              "name": "Juan H",
+              "email": "juan@mail.com",
+              "phone": "999888777"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/customers/12345678
+        name: update customer
+        meta:
+          id: req_45e19d36f3344948ad04d1875c564871
+          created: 1793136636962
+          modified: 1793142969572
+          isPrivate: false
+          description: ""
+          sortKey: -1793132237612.875
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "type": "PERSONAL",
+              "documentNumber": "12345678",
+              "name": "Juan Huauya",
+              "email": "juan@mail.com",
+              "phone": "999888777"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/customers/12345679
+        name: delete customer id
+        meta:
+          id: req_7159e91f51484faeb8712d0514ff7cf6
+          created: 1793136692244
+          modified: 1793136698617
+          isPrivate: false
+          description: ""
+          sortKey: -1793128143865.75
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: account-service
+    meta:
+      id: fld_4c177df46e27463b85dbe17f66ba4137
+      created: 1793136459278
+      modified: 1793151358813
+      sortKey: -1793136459278
+      description: ""
+  - name: credit-service
+    meta:
+      id: fld_40926c21a9ce49ca99ecab9df1876bee
+      created: 1793140973647
+      modified: 1793152190215
+      sortKey: -1793140973647
+      description: ""
+  - name: transaction-service
+    meta:
+      id: fld_aa50b9afa9874453a2546891e9416d9b
+      created: 1793151351208
+      modified: 1793151351208
+      sortKey: -1793151351208
+      description: ""
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_36c5be0b969803f6aa04e14e7dc0d5bdec7da773
+    created: 1793136263459
+    modified: 1793136263459
+environments:
+  name: Base Environment
+  meta:
+    id: env_36c5be0b969803f6aa04e14e7dc0d5bdec7da773
+    created: 1793136263457
+    modified: 1793136263457
+    isPrivate: false
